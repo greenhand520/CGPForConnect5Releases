@@ -111,26 +111,9 @@ int Step::getIndex() {
     }
 }
 
-StoneType Step::getStoneType(int stoneTypeValue) {
-    switch (stoneTypeValue) {
-        case 0:
-            return STONE_NULL;
-        case 1:
-            return STONE_BLACK;
-        case 2:
-            return STONE_WHITE;
-        default:
-            return STONE_INVALID;
-    }
-}
 
 StoneType Step::getOpponentStoneType() {
     return this->stoneType == STONE_BLACK ? STONE_WHITE : STONE_BLACK;
-}
-
-
-StoneType Step::getOpponentStoneType(StoneType &stoneType) {
-    return stoneType == STONE_BLACK ? STONE_WHITE : STONE_BLACK;
 }
 
 const string &Step::getStoneStr() {

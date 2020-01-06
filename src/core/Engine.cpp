@@ -58,8 +58,8 @@ void Engine::setPlayTime(long gameTimeLimit, long stepTimeLimit) {
 }
 
 void Engine::setStoneType(int stoneTypeValue) {
-    stoneType = Step::getStoneType(stoneTypeValue);
-    opponentStoneType = Step::getOpponentStoneType(stoneType);
+    stoneType = ::getStoneType(stoneTypeValue);
+    opponentStoneType = ::getOpponentStoneType(stoneType);
 }
 
 
@@ -116,15 +116,18 @@ int * Engine::responseOpenBoardFormat2dIntArray() {
     return stepsToIntArray(openSteps);
 }
 
-int *Engine::responseStepByLastStepFormatIntArray(const int *opponentLastStep) {
+int *Engine::responseStepByLastStepFormatIntArray(const int *opponentLastStep, long gameTimeUsed) {
+    this->gameTimeUsed = gameTimeUsed;
     Step lastStep = intArrayToStep(opponentLastStep);
     Step nextStep = responseStepByLastStep(lastStep);
     return stepToIntArray(nextStep);
 }
 
-int *Engine::responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum) {
+int *Engine::responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed) {
+    this->gameTimeUsed = gameTimeUsed;
     vector<Step> stepsOrderVector;
     intArrayToSteps(stepsOrder, orderStepsNum, stepsOrderVector);
+    printSteps(stepsOrderVector);
     Step nextStep = responseStepByOrderSteps(stepsOrderVector);
     return stepToIntArray(nextStep);
 }
@@ -133,19 +136,26 @@ bool Engine::isThirdExchange(const int *steps) {
     vector<Step> stepsOrderVector;
     intArrayToSteps(steps, 3, stepsOrderVector);
     bool isExchange = isThirdExchange(stepsOrderVector);
+    if (isExchange) {
+        stoneType = ::getOpponentStoneType(stoneType);
+        opponentStoneType = ::getOpponentStoneType(stoneType);
+    }
     return isExchange;
 }
 
-void Engine::undoStep(int stoneTypeUndoValue) {
+void Engine::undoStep(int stoneTypeUndoValue, long gameTimeUsed) {
+    this->gameTimeUsed = gameTimeUsed;
     undoStep(StoneType(stoneTypeUndoValue));
 }
 
-int *Engine::isInvalidStepFormatIntArray() {
+int *Engine::isInvalidStepFormatIntArray(long gameTimeUsed) {
+    this->gameTimeUsed = gameTimeUsed;
     Step newStep = isInvalidStep();
     return stepToIntArray(newStep);
 }
 
-int * Engine::responseFifthStepsFormat2dIntArray(int playNum, const int *orderSteps, int orderStepsNum) {
+int * Engine::responseFifthStepsFormat2dIntArray(int playNum, const int *orderSteps, int orderStepsNum, long gameTimeUsed) {
+    this->gameTimeUsed = gameTimeUsed;
     vector<Step> orderStepsVector;
     intArrayToSteps(orderSteps, orderStepsNum, orderStepsVector);
     vector<Step> fifthSteps = responseFifthSteps(playNum, orderStepsVector);
@@ -157,7 +167,8 @@ void Engine::setFifthStep(const int *fifthStep) {
     setFifthStep(step);
 }
 
-int *Engine::decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum) {
+int *Engine::decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum, long gameTimeUsed) {
+    this->gameTimeUsed = gameTimeUsed;
     vector<Step> fifthStepsVector;
     intArrayToSteps(opponentFifthSteps, playNum, fifthStepsVector);
     Step step = decideOpponentFifthStep(fifthStepsVector);

@@ -8,6 +8,8 @@
 #include "Step.hpp"
 #include <iostream>
 #include "vector"
+#include "stack"
+#include "Enums.hpp"
 
 using namespace std;
 
@@ -28,5 +30,9 @@ void printSteps(vector<Step> &steps);
 void printSteps(const int *stepInfos, int stepsNum);
 
 void printStep(const int *stepInfo);
+
+StoneType getStoneType(int stoneTypeValue);
+
+StoneType getOpponentStoneType(StoneType &stoneType);
 
 #endif //HFNUCGPENGINEAPIFORCPP_UTILS_HPP

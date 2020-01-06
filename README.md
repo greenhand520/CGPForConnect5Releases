@@ -43,6 +43,8 @@
 
 不要修改这些接口函数的名字、参数、返回类型，否则平台会无法调用。
 
+接口函数中的参数`gameTimeUsed`表示当前引擎的单局以使用时间。
+
 接口函数中返回的结果或者参数类型中有指针揭示数组指针，要么是表示一个落子的int数组，要么是表示很多落子的int数组。
 
 表示一个落子的int数组大小为3，第一个元素为落子所在行（0 - 14），第二个元素为落子所在列（0 - 14），第三个元素为落子颜色对应的int值（1->黑子， 2->白子）。
@@ -77,11 +79,11 @@
 
 获取开局落子
 
-`int *responseStepByLastStepFormatIntArray(const int *opponentLastStep)`
+`int *responseStepByLastStepFormatIntArray(const int *opponentLastStep, long gameTimeUsed)`
 
 将对手的上一步落子发送给引擎后获取引擎的下一步落子。
 
-`int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum)`
+`int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed)`
 
 将棋盘上的所有落子发送给引擎后获取引擎的下一步落子。
 
@@ -89,15 +91,15 @@
 
 根据棋盘上所有落子，决定是否三手交换。
 
-`void undoStep(int stoneTypeUndoValue)`
+`void undoStep(int stoneTypeUndoValue, long gameTimeUsed)`
 
 撤回一个落子，参数`stoneTypeUndoValue`表示撤回的落子颜色值。
 
-`int *isInvalidStepFormatIntArray()`
+`int *isInvalidStepFormatIntArray(long gameTimeUsed)`
 
 告诉引擎上一步落子无效，返回一个新的落子。
 
-`int *responseFifthStepsFormatIntArray(int playNum, const int *orderSteps, int orderStepsNum)`
+`int *responseFifthStepsFormatIntArray(int playNum, const int *orderSteps, int orderStepsNum, long gameTimeUsed)`
 
 平台将棋盘上的所有落子发给黑手引擎，黑手产生第五手的所有落子。
 
@@ -105,7 +107,7 @@
 
 设置黑手的第五手落子。
 
-`int *decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum)`
+`int *decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum, long gameTimeUsed)`
 
 平台将黑手的第五手所有落子发送给白手，然后获取白手决定的黑手的第五手落子。
 

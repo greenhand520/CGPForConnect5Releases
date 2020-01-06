@@ -33,19 +33,19 @@ int * responseOpenBoardFormatIntArray() {
     return randomEngine.responseOpenBoardFormat2dIntArray();
 }
 
-int *responseStepByLastStepFormatIntArray(const int *opponentLastStep) {
+int *responseStepByLastStepFormatIntArray(const int *opponentLastStep, long gameTimeUsed) {
     cout << "function responseStepByLastStepFormatIntArray is called..." << endl;
-    cout << "opponentLastStep: " << endl;
+    cout << "opponentLastStep: ";
     printStep(opponentLastStep);
-    return randomEngine.responseStepByLastStepFormatIntArray(opponentLastStep);
+    return randomEngine.responseStepByLastStepFormatIntArray(opponentLastStep, gameTimeUsed);
 }
 
-int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum) {
+int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed) {
     cout << "function responseStepByOrderStepsFormatIntArray is called..." << endl;
     cout << "orderStepsNum: " << orderStepsNum << endl;
     cout << "stepsOrder: " << endl;
     printSteps(stepsOrder, orderStepsNum);
-    return randomEngine.responseStepByOrderStepsFormatIntArray(stepsOrder, orderStepsNum);
+    return randomEngine.responseStepByOrderStepsFormatIntArray(stepsOrder, orderStepsNum, gameTimeUsed);
 }
 
 bool isThirdExchange(const int *steps) {
@@ -55,23 +55,23 @@ bool isThirdExchange(const int *steps) {
     return randomEngine.Engine::isThirdExchange(steps);
 }
 
-void undoStep(int stoneTypeUndoValue) {
+void undoStep(int stoneTypeUndoValue, long gameTimeUsed) {
     cout << "function undoStep is called..." << endl;
-    randomEngine.Engine::undoStep(stoneTypeUndoValue);
+    randomEngine.Engine::undoStep(stoneTypeUndoValue, gameTimeUsed);
 }
 
-int *isInvalidStepFormatIntArray() {
+int *isInvalidStepFormatIntArray(long gameTimeUsed) {
     cout << "function isInvalidStepFormatIntArray is called..." << endl;
-    return randomEngine.isInvalidStepFormatIntArray();
+    return randomEngine.isInvalidStepFormatIntArray(gameTimeUsed);
 }
 
-int * responseFifthStepsFormatIntArray(int playNum, const int *orderSteps, int orderStepsNum) {
+int * responseFifthStepsFormatIntArray(int playNum, const int *orderSteps, int orderStepsNum, long gameTimeUsed) {
     cout << "function responseFifthStepsFormatIntArray is called..." << endl;
     cout << "playNum: " << playNum << endl;
     cout << "orderStepsNum: " << orderStepsNum << endl;
     cout << "orderSteps: " << endl;
     printSteps(orderSteps, orderStepsNum);
-    return randomEngine.responseFifthStepsFormat2dIntArray(playNum, orderSteps, orderStepsNum);
+    return randomEngine.responseFifthStepsFormat2dIntArray(playNum, orderSteps, orderStepsNum, gameTimeUsed);
 }
 
 void setFifthStep(const int *fifthStep) {
@@ -81,12 +81,12 @@ void setFifthStep(const int *fifthStep) {
     randomEngine.Engine::setFifthStep(fifthStep);
 }
 
-int *decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum) {
+int *decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum, long gameTimeUsed) {
     cout << "function decideOpponentFifthStepFormatIntArray is called..." << endl;
     cout << "playerNum: " << playNum << endl;
     cout << "opponentFifthSteps :" << endl;
     printSteps(opponentFifthSteps, playNum);
-    return randomEngine.decideOpponentFifthStepFormatIntArray(opponentFifthSteps, playNum);
+    return randomEngine.decideOpponentFifthStepFormatIntArray(opponentFifthSteps, playNum, gameTimeUsed);
 }
 
 void finishGame() {

@@ -12,6 +12,7 @@
 
 using namespace std;
 
+
 const string &getOpenSteps(int num, vector<Step> &openSteps);
 
 const string &getRandomOpenSteps(vector<Step> &openSteps);

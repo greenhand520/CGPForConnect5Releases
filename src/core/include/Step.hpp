@@ -53,11 +53,7 @@ public:
 
     int getIndex();
 
-    static StoneType getStoneType(int stoneTypeValue);
-
     StoneType getOpponentStoneType();
-
-    static StoneType getOpponentStoneType(StoneType &stoneType);
 
     const std::string &getStoneStr();
 

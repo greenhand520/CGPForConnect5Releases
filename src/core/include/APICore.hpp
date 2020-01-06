@@ -6,7 +6,7 @@
 #define HFNUCGPENGINEAPIFORCPP_APICORE_HPP
 
 
-#include "Export.hpp"
+#include "Export.h"
 #include "Utils.hpp"
 #include "Step.hpp"
 #include "Engine.hpp"

@@ -117,21 +117,21 @@ public:
 
     int * responseOpenBoardFormat2dIntArray();
 
-    int *responseStepByLastStepFormatIntArray(const int *opponentLastStep);
+    int *responseStepByLastStepFormatIntArray(const int *opponentLastStep, long gameTimeUsed);
 
-    int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum);
+    int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed);
 
     bool isThirdExchange(const int *steps);
 
-    void undoStep(int stoneTypeUndoValue);
+    void undoStep(int stoneTypeUndoValue, long gameTimeUsed);
 
-    int *isInvalidStepFormatIntArray();
+    int *isInvalidStepFormatIntArray(long gameTimeUsed);
 
-    int * responseFifthStepsFormat2dIntArray(int playNum, const int *orderSteps, int orderStepsNum);
+    int *responseFifthStepsFormat2dIntArray(int playNum, const int *orderSteps, int orderStepsNum, long gameTimeUsed);
 
     void setFifthStep(const int *fifthStep);
 
-    int *decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum);
+    int *decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum, long gameTimeUsed);
 
     virtual void finishGame() = 0;
 };

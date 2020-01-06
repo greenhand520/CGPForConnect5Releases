@@ -7,8 +7,8 @@
 
 ostream &operator<<(ostream &out, Step &step) {
     out << "Step{row: "
-        << step.getRow() << ",col: "
-        << step.getCol() << ",stoneType: "
+        << step.getRow() + 1 << ",col: "
+        << (char)('A' + step.getCol()) << ",stoneType: "
         << step.getStoneStr()
         << "}";
     return out;
@@ -55,3 +55,21 @@ void printStep(const int *stepInfo) {
     Step step = intArrayToStep(stepInfo);
     cout << step << endl;
 }
+
+StoneType getStoneType(int stoneTypeValue) {
+    switch (stoneTypeValue) {
+        case 0:
+            return STONE_NULL;
+        case 1:
+            return STONE_BLACK;
+        case 2:
+            return STONE_WHITE;
+        default:
+            return STONE_INVALID;
+    }
+}
+
+StoneType getOpponentStoneType(StoneType &stoneType) {
+    return stoneType == STONE_BLACK ? STONE_WHITE : STONE_BLACK;
+}
+
