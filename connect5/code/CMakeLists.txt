@@ -12,7 +12,7 @@ set(CHESS_TYPE CONNECT5)
 #引擎dll文件输出路径
 set(ENGINE_OUTPUT_PATH E:/PublicFiles/Projects/IdeaProjects/HFNUCGPForConnect5/CGPData/ExtEngines)
 
-#引擎dll文件名，形如“RandomDllEngine_CONNECT5_mdmbct_v1.0.dll”，引擎名、作者名、版本必须用‘_’分隔，否则平台无法解析
+#引擎dll文件名，形如“RandomDllEngine_CONNECT5_mdmbct_v1.0.dll”，引擎名、引擎类型、作者名、版本必须用‘_’分隔，否则平台无法解析
 set(DLL_NAME ${ENGINE_NAME}_${CHESS_TYPE}_${ENGINE_AUTHOR}_${ENGINE_VERSION})
 include_directories(src/core/include)
 include_directories(src/engine/include)
