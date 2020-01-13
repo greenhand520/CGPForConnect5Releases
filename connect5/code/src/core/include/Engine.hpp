@@ -2,8 +2,8 @@
 // Created by mdmbct on 2019/12/9.
 //
 
-#ifndef HFNUCGPENGINEAPIFORCPP_ENGINE_HPP
-#define HFNUCGPENGINEAPIFORCPP_ENGINE_HPP
+#ifndef HFNUCGPENGINEAPIINCPP_ENGINE_HPP
+#define HFNUCGPENGINEAPIINCPP_ENGINE_HPP
 
 #include <string>
 #include "Step.hpp"
@@ -136,4 +136,4 @@ public:
     virtual void finishGame() = 0;
 };
 
-#endif //HFNUCGPENGINEAPIFORCPP_ENGINE_HPP
+#endif //HFNUCGPENGINEAPIINCPP_ENGINE_HPP

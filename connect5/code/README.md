@@ -67,6 +67,10 @@
 
 新一局开始，返回引擎第一步落子的数组表示。
 
+`void setStoneType(int stoneColorValue)`
+
+设置引擎执子的颜色，对手三手交换时平台调用这个函数告诉引擎更换执子颜色。
+
 `void cleanMemory()`
 
 清理内存，C++需要开发者手动释放申请的堆区的内存，通过这个函数释放返回给平台的数组所占内存。
@@ -126,16 +130,18 @@ cmake_minimum_required(VERSION 3.14)
 project(HFNUCGPEngineAPIForCpp)
 
 #引擎名
-set(ENGINE_NAME RandomEngine)
+set(ENGINE_NAME RandomDllEngine)
 #引擎作者
 set(ENGINE_AUTHOR mdmbct)
 #引擎版本
 set(ENGINE_VERSION v1.0)
+#引擎棋类，不可改动
+set(CHESS_TYPE CONNECT5)
 #引擎dll文件输出路径
-set(ENGINE_OUTPUT_PATH D:/Projects/IdeaProjects/HFNUCGPForConnect5/CGPData/ExtEngines)
+set(ENGINE_OUTPUT_PATH E:/PublicFiles/Projects/IdeaProjects/HFNUCGPForConnect5/CGPData/ExtEngines)
 
-#引擎dll文件名，形如“RandomEngine_mdmbct_v1.0.dll”，引擎名、作者名、版本必须用‘_’分隔，否则平台无法解析
-set(DLL_NAME ${ENGINE_NAME}_${ENGINE_AUTHOR}_${ENGINE_VERSION})
+#引擎dll文件名，形如“RandomDllEngine_CONNECT5_mdmbct_v1.0.dll”，引擎名、作者名、版本必须用‘_’分隔，否则平台无法解析
+set(DLL_NAME ${ENGINE_NAME}_${CHESS_TYPE}_${ENGINE_AUTHOR}_${ENGINE_VERSION})
 include_directories(src/core/include)
 include_directories(src/engine/include)
 
@@ -414,3 +420,83 @@ void RandomEngine::finishGame() {
 悔棋时需要根据悔棋的颜色决定从堆栈中弹出一个还是两个棋子。如果是我方悔棋需要从堆栈中弹出两个棋子，其中第二个是对方棋子，因为在平台获取下一步我方落子会将对手的落子发送给引擎，如果不在堆栈中弹出就会出现连续两个相同棋子的情况。
 
 在函数finishGamez中，需要清理存放棋子的堆栈的存储空间，对于复杂的落子算法，用到其他数据结构存储数据，都需要在此函数中清理它们所占的内存空间。
+
+最后在另一个cpp文件中实现对`Export.h`中声明的函数的实现，如下:
+
+需要在该文件中声明一个`static`的引擎类型，如代码中的`static RandomEngine randomEngine;`
+
+`Export.h`中函数即对应引擎中的同名函数。
+
+```cpp
+#include <iostream>
+
+#include "APICore.hpp"
+#include "RandomEngine.hpp"
+
+using namespace std;
+
+static RandomEngine randomEngine;
+
+
+void setupGame(long gameTimeLimit, long stepTimeLimit, int stoneTypeValue, bool isCheckHandForbidden, bool isFreeOpen) {
+    randomEngine.setupGame(gameTimeLimit, stepTimeLimit, stoneTypeValue, isCheckHandForbidden, isFreeOpen);
+}
+
+int *startNewGame() {
+    return randomEngine.startNewGame();
+}
+
+void setStoneType(int stoneColorValue) {
+    randomEngine.setStoneType(stoneColorValue);
+}
+
+void cleanMemory() {
+    randomEngine.cleanMemory();
+}
+
+int getFifthPlayNum() {
+    return randomEngine.getFifthPlayNum();
+}
+
+int *responseOpenBoardFormatIntArray() {
+    return randomEngine.responseOpenBoardFormat2dIntArray();
+}
+
+int *responseStepByLastStepFormatIntArray(const int *opponentLastStep, long gameTimeUsed) {
+    return randomEngine.responseStepByLastStepFormatIntArray(opponentLastStep, gameTimeUsed);
+}
+
+int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed) {
+    return randomEngine.responseStepByOrderStepsFormatIntArray(stepsOrder, orderStepsNum, gameTimeUsed);
+}
+
+bool isThirdExchange(const int *steps) {
+    return randomEngine.Engine::isThirdExchange(steps);
+}
+
+void undoStep(int stoneTypeUndoValue, long gameTimeUsed) {
+    randomEngine.Engine::undoStep(stoneTypeUndoValue, gameTimeUsed);
+}
+
+int *isInvalidStepFormatIntArray(long gameTimeUsed) {
+    return randomEngine.isInvalidStepFormatIntArray(gameTimeUsed);
+}
+
+int * responseFifthStepsFormatIntArray(int playNum, const int *orderSteps, int orderStepsNum, long gameTimeUsed) {
+    return randomEngine.responseFifthStepsFormat2dIntArray(playNum, orderSteps, orderStepsNum, gameTimeUsed);
+}
+
+void setFifthStep(const int *fifthStep) {
+    randomEngine.Engine::setFifthStep(fifthStep);
+}
+
+int *decideOpponentFifthStepFormatIntArray(const int *opponentFifthSteps, int playNum, long gameTimeUsed) {
+    return randomEngine.decideOpponentFifthStepFormatIntArray(opponentFifthSteps, playNum, gameTimeUsed);
+}
+
+void finishGame() {
+    randomEngine.finishGame();
+}
+
+```
+

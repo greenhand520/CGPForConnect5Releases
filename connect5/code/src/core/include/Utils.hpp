@@ -2,8 +2,8 @@
 // Created by mdmbct on 2019/12/30.
 //
 
-#ifndef HFNUCGPENGINEAPIFORCPP_UTILS_HPP
-#define HFNUCGPENGINEAPIFORCPP_UTILS_HPP
+#ifndef HFNUCGPENGINEAPIINCPP_UTILS_HPP
+#define HFNUCGPENGINEAPIINCPP_UTILS_HPP
 
 #include "Step.hpp"
 #include <iostream>
@@ -35,4 +35,4 @@ StoneType getStoneType(int stoneTypeValue);
 
 StoneType getOpponentStoneType(StoneType &stoneType);
 
-#endif //HFNUCGPENGINEAPIFORCPP_UTILS_HPP
+#endif //HFNUCGPENGINEAPIINCPP_UTILS_HPP

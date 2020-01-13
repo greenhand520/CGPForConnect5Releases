@@ -127,7 +127,6 @@ int *Engine::responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int o
     this->gameTimeUsed = gameTimeUsed;
     vector<Step> stepsOrderVector;
     intArrayToSteps(stepsOrder, orderStepsNum, stepsOrderVector);
-    printSteps(stepsOrderVector);
     Step nextStep = responseStepByOrderSteps(stepsOrderVector);
     return stepToIntArray(nextStep);
 }

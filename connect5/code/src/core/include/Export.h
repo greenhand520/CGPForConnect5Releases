@@ -2,8 +2,8 @@
 // Created by mdmbct on 2019/12/19.
 //
 
-#ifndef HFNUCGPENGINEAPIFORCPP_EXPORT_H
-#define HFNUCGPENGINEAPIFORCPP_EXPORT_H
+#ifndef HFNUCGPENGINEAPIINCPP_EXPORT_H
+#define HFNUCGPENGINEAPIINCPP_EXPORT_H
 
 #ifdef _WIN32
 #   define DLL_EXPORT __declspec(dllexport)
@@ -15,6 +15,8 @@ extern "C" DLL_EXPORT void setupGame(long gameTimeLimit, long stepTimeLimit, int
                                      bool isCheckHandForbidden, bool isFreeOpen);
 
 extern "C" DLL_EXPORT int *startNewGame();
+
+extern "C" DLL_EXPORT void setStoneType(int stoneColorValue);
 
 extern "C" DLL_EXPORT void cleanMemory();
 
@@ -40,4 +42,4 @@ extern "C" DLL_EXPORT int *decideOpponentFifthStepFormatIntArray(const int *oppo
 
 extern "C" DLL_EXPORT void finishGame();
 
-#endif //HFNUCGPENGINEAPIFORCPP_EXPORT_H
+#endif //HFNUCGPENGINEAPIINCPP_EXPORT_H
