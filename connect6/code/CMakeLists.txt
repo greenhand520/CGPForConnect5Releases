@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(HFNUCGPForConnect5EngineAPIInCpp)
+project(HFNUCGPForConnect6EngineAPIInCpp)
 
 #引擎名
 set(ENGINE_NAME RandomDllEngine)
@@ -8,9 +8,9 @@ set(ENGINE_AUTHOR mdmbct)
 #引擎版本
 set(ENGINE_VERSION v1.0)
 #引擎棋类，不可改动
-set(CHESS_TYPE CONNECT5)
+set(CHESS_TYPE CONNECT6)
 #引擎dll文件输出路径
-set(ENGINE_OUTPUT_PATH E:/PublicFiles/Projects/IdeaProjects/HFNUCGPForConnect5/CGPData/ExtEngines)
+set(ENGINE_OUTPUT_PATH E:/PublicFiles/Projects/IdeaProjects/HFNUCGPForConnect6/CGPData/ExtEngines)
 
 #引擎dll文件名，形如“RandomDllEngine_CONNECT5_mdmbct_v1.0.dll”，引擎名、引擎类型、作者名、版本必须用‘_’分隔，否则平台无法解析
 set(DLL_NAME ${ENGINE_NAME}_${CHESS_TYPE}_${ENGINE_AUTHOR}_${ENGINE_VERSION})

@@ -127,7 +127,7 @@
 
 ```cmake
 cmake_minimum_required(VERSION 3.14)
-project(HFNUCGPEngineAPIForCpp)
+project(HFNUCGPForConnect5EngineAPIInCpp)
 
 #引擎名
 set(ENGINE_NAME RandomDllEngine)
