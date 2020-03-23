@@ -41,7 +41,7 @@
 
 ### 接口函数
 
-不要修改这些接口函数的名字、参数、返回类型，否则平台会无法调用。
+接口定义在`core/include/Export.h`中，不要修改这些接口函数的名字、参数、返回类型，否则平台会无法调用。
 
 接口函数中的参数`gameTimeUsed`表示当前引擎的单局以使用时间。
 
@@ -127,6 +127,7 @@
 
 ```cmake
 cmake_minimum_required(VERSION 3.14)
+#项目名
 project(HFNUCGPForConnect5EngineAPIInCpp)
 
 #引擎名
@@ -140,7 +141,7 @@ set(CHESS_TYPE CONNECT5)
 #引擎dll文件输出路径
 set(ENGINE_OUTPUT_PATH E:/PublicFiles/Projects/IdeaProjects/HFNUCGPForConnect5/CGPData/ExtEngines)
 
-#引擎dll文件名，形如“RandomDllEngine_CONNECT5_mdmbct_v1.0.dll”，引擎名、作者名、版本必须用‘_’分隔，否则平台无法解析
+#引擎dll文件名，形如“RandomDllEngine_CONNECT5_mdmbct_v1.0.dll”，引擎名、引擎类型、作者名、版本必须用‘_’分隔，否则平台无法解析
 set(DLL_NAME ${ENGINE_NAME}_${CHESS_TYPE}_${ENGINE_AUTHOR}_${ENGINE_VERSION})
 include_directories(src/core/include)
 include_directories(src/engine/include)
@@ -153,12 +154,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(MAIN ${dir_srcs} ${api_core} ${example_engine} src)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK")
 #生成可执行文件
-#add_executable(HFNUCGPEngineAPIForCpp ${MAIN})
+add_executable(${ENGINE_NAME} ${MAIN})
 #生成动态链接库
-add_library(${DLL_NAME} SHARED ${MAIN})
-set_target_properties(${DLL_NAME} PROPERTIES LINKER_LANGUAGE C)
-set_target_properties(${DLL_NAME} PROPERTIES PREFIX "")
-SET(LIBRARY_OUTPUT_PATH ${ENGINE_OUTPUT_PATH})
+#add_library(${DLL_NAME} SHARED ${MAIN})
+#set_target_properties(${DLL_NAME} PROPERTIES LINKER_LANGUAGE C)
+#set_target_properties(${DLL_NAME} PROPERTIES PREFIX "")
+#SET(LIBRARY_OUTPUT_PATH ${ENGINE_OUTPUT_PATH})
 ```
 
 ### src/core

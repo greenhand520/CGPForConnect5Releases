@@ -39,7 +39,7 @@
 
 ### 接口函数
 
-不要修改这些接口函数的名字、参数、返回类型，否则平台会无法调用。
+接口定义在`core/include/Export.h`中，不要修改这些接口函数的名字、参数、返回类型，否则平台会无法调用。
 
 接口函数中的参数`gameTimeUsed`表示当前引擎的单局以使用时间。
 
@@ -99,6 +99,7 @@
 
 ```cmake
 cmake_minimum_required(VERSION 3.14)
+#项目名
 project(HFNUCGPForConnect6EngineAPIInCpp)
 
 #引擎名
