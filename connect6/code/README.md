@@ -1,8 +1,8 @@
-# 合肥师范学院计算机博弈比赛五子棋平台引擎C++接口
+# 合肥师范学院计算机博弈比赛六子棋平台引擎C/C++接口
 
 ## 项目简介
 
-使用[CLion](http://www.jetbrains.com/clion/)+[CMake](https://cmake.org/)+MinGW+C++编写的HUNUCGP的C/C++引擎接口，通过将此项目打包成动态链接库形式，[博弈平台](https://github.com/mdmbct/HFNUComputerGamePlatformForConnect5)可以调用动态链接库中的引擎。
+使用[CLion](http://www.jetbrains.com/clion/)+[CMake](https://cmake.org/)+MinGW+C++编写的HUNUCGP的C/C++引擎接口，通过将此项目打包成动态链接库形式，博弈平台可以调用动态链接库中的引擎。
 
 **使用Visual Studio也是可以继续开发的。**
 
@@ -43,7 +43,7 @@
 
 接口函数中的参数`gameTimeUsed`表示当前引擎的单局以使用时间。
 
-接口函数中返回的结果或者参数类型中有指针揭示数组指针，要么是表示一个落子的int数组，要么是表示很多落子的int数组。
+接口函数中返回的结果或者参数类型中有指针皆是数组指针，要么是表示一个落子的int数组，要么是表示很多落子的int数组。
 
 表示一个落子的int数组大小为3，第一个元素为落子所在行（0 - 14），第二个元素为落子所在列（0 - 14），第三个元素为落子颜色对应的int值（1->黑子， 2->白子）。
 
@@ -90,6 +90,8 @@
 ` void finishGame()` 
 
 结束一局，清理内存。
+
+**项目中的其他表示棋类、引擎的类算是示例，可以不在它们的基础上编写引擎代码，但是引擎最后必须实现这些函数，且函数返回结果必须符合要求、命名得符合格式要求，否则平台无法调用！**
 
 ### 文件说明
 
@@ -178,7 +180,7 @@ include文件夹在此项目基础上添加引擎需要用到的类、函数等�
 
 `virtual Step *responseStepByOrderSteps(const vector<Step> &stepsOrder) = 0`
 
-根据棋盘上所有落子决定是否进行三手交换。
+撤回一个落子，参数`stoneTypeUndo`表示撤回的落子颜色值。
 
 `virtual void undoStep(const StoneType &stoneTypeUndo) = 0`
 
