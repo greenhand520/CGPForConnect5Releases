@@ -17,13 +17,13 @@ extern "C" DLL_EXPORT int *startNewGame();
 
 extern "C" DLL_EXPORT void cleanMemory();
 
-extern "C" DLL_EXPORT int *responseStepByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed);
+extern "C" DLL_EXPORT int *responseStepsByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed);
 
-extern "C" DLL_EXPORT int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed);
+extern "C" DLL_EXPORT int *responseStepsByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed);
 
 extern "C" DLL_EXPORT void undoStep(int stoneTypeUndoValue, int undoNum, long gameTimeUsed);
 
-extern "C" DLL_EXPORT int *isInvalidStepFormatIntArray(long gameTimeUsed);
+extern "C" DLL_EXPORT int *isInvalidStepsFormatIntArray(long gameTimeUsed);
 
 extern "C" DLL_EXPORT void finishGame();
 

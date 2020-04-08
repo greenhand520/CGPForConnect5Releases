@@ -112,18 +112,18 @@ void Engine::cleanMemory() {
 }
 
 
-int *Engine::responseStepByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed) {
+int *Engine::responseStepsByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed) {
     this->gameTimeUsed = gameTimeUsed;
     Step lastStep = intArrayToStep(opponentLastStep);
-    Step *nextSteps = responseStepByLastStep(lastStep);
+    Step *nextSteps = responseStepsByLastSteps(lastStep);
     return stepArrayToIntArray(nextSteps, 2);
 }
 
-int *Engine::responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed) {
+int *Engine::responseStepsByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed) {
     this->gameTimeUsed = gameTimeUsed;
     vector<Step> stepsOrderVector;
     intArrayToSteps(stepsOrder, orderStepsNum, stepsOrderVector);
-    Step *nextSteps = responseStepByOrderSteps(stepsOrderVector);
+    Step *nextSteps = responseStepsByOrderSteps(stepsOrderVector);
     int *stepInfos = stepArrayToIntArray(nextSteps, 2);
     return stepInfos;
 }
@@ -134,9 +134,9 @@ void Engine::undoStep(int stoneTypeUndoValue, int undoNum, long gameTimeUsed) {
     undoStep(StoneType(stoneTypeUndoValue), undoNum);
 }
 
-int *Engine::isInvalidStepFormatIntArray(long gameTimeUsed) {
+int *Engine::isInvalidStepsFormatIntArray(long gameTimeUsed) {
     this->gameTimeUsed = gameTimeUsed;
-    Step *newSteps = isInvalidStep();
+    Step *newSteps = isInvalidSteps();
     int *stepInfos = stepArrayToIntArray(newSteps, 2);
     return stepInfos;
 }

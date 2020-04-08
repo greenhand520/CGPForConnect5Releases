@@ -1,4 +1,4 @@
-# 合肥师范学院计算机博弈比赛六子棋平台引擎C/C++接口
+# HFNU计算机博弈比赛六子棋平台引擎C++接口
 
 ## 项目简介
 
@@ -71,11 +71,11 @@
 
 清理内存，C++需要开发者手动释放申请的堆区的内存，通过这个函数释放返回给平台的数组所占内存。
 
-`int *responseStepByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed)`
+`int *responseStepsByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed)`
 
 将对手的上一步落子发送给引擎后获取引擎的下一步落子。
 
-`int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed)`
+`int *responseStepsByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed)`
 
 将棋盘上的所有落子发送给引擎后获取引擎的下一步落子。
 
@@ -83,15 +83,13 @@
 
 撤回一个落子，参数`stoneTypeUndoValue`表示撤回的落子颜色值。
 
-`int *isInvalidStepFormatIntArray(long gameTimeUsed)`
+`int *isInvalidStepsFormatIntArray(long gameTimeUsed)`
 
 告诉引擎上一步落子无效，返回一个新的落子。
 
 ` void finishGame()` 
 
 结束一局，清理内存。
-
-**项目中的其他表示棋类、引擎的类算是示例，可以不在它们的基础上编写引擎代码，但是引擎最后必须实现这些函数，且函数返回结果必须符合要求、命名得符合格式要求，否则平台无法调用！**
 
 ### 文件说明
 
@@ -174,11 +172,11 @@ include文件夹在此项目基础上添加引擎需要用到的类、函数等�
 
 生成开局落子。
 
-`virtual Step *responseStepByLastStep(const Step &opponentLastStep) = 0`
+`virtual Step *responseStepsByLastSteps(const Step &opponentLastStep) = 0`
 
 根据对手上一步落子产生下一步落子。
 
-`virtual Step *responseStepByOrderSteps(const vector<Step> &stepsOrder) = 0`
+`virtual Step *responseStepsByOrderSteps(const vector<Step> &stepsOrder) = 0`
 
 撤回一个落子，参数`stoneTypeUndo`表示撤回的落子颜色值。
 
@@ -186,7 +184,7 @@ include文件夹在此项目基础上添加引擎需要用到的类、函数等�
 
 撤销一步落子，参数表示撤销的落子颜色。
 
-`virtual Step *isInvalidStep() = 0`
+`virtual Step *isInvalidSteps() = 0`
 
 上一步落子无效并返回新的落子。
 
@@ -226,13 +224,13 @@ protected:
 
     Step startGame() override;
 
-    Step *responseStepByLastStep(const Step &opponentLastStep) override;
+    Step *responseStepsByLastSteps(const Step &opponentLastStep) override;
 
-    Step *responseStepByOrderSteps(const vector<Step> &stepsOrder) override;
+    Step *responseStepsByOrderSteps(const vector<Step> &stepsOrder) override;
 
     void undoStep(const StoneType &stoneTypeUndo, int undoNum) override;
 
-    Step *isInvalidStep() override;
+    Step *isInvalidSteps() override;
 
 };
 
@@ -257,94 +255,86 @@ RandomEngine::RandomEngine() {
 
 }
 
-int RandomEngine::getFifthPlayNum() {
-    // 2 ~ 4
-    return rand() % 3 + 2;
-}
-
 void RandomEngine::initEngine() {
     srand(time(NULL));
 }
 
 Step RandomEngine::startGame() {
-    Step step(7, 7, STONE_BLACK);
+    Step step(9, 9, STONE_BLACK);
     stepStack.push(step);
     return step;
 }
 
-vector<Step> RandomEngine::responseOpenBoard() {
-    vector<Step> steps;
-    getRandomOpenSteps(steps);
-    for (int i = 0; i < 3; ++i) {
-        stepStack.push(steps.at(i));
-    }
-    return steps;
-}
-
 const Step &RandomEngine::nextRandomStep() {
-    Step *step = new Step(rand() % 14, rand() % 14, stoneType);
+    Step *step = new Step(rand() % BOARD_SIZE - 1, rand() % BOARD_SIZE - 1, stoneType);
     return *step;
 }
 
-Step RandomEngine::responseStepByLastStep(const Step &opponentLastStep) {
+Step *RandomEngine::responseStepsByLastSteps(const Step &opponentLastStep) {
     stepStack.push(opponentLastStep);
-    const Step &step = nextRandomStep();
-    stepStack.push(step);
-    delete &step;
-    return stepStack.top();
+    const Step &firstStep = nextRandomStep();
+    stepStack.push(firstStep);
+    const Step &secondStep = nextRandomStep();
+    stepStack.push(secondStep);
+    Step *steps = new Step[2]{firstStep, secondStep};
+    return steps;
 }
 
-Step RandomEngine::responseStepByOrderSteps(const vector<Step> &stepsOrder) {
+Step *RandomEngine::responseStepsByOrderSteps(const vector<Step> &stepsOrder) {
     for (const auto & i : stepsOrder) {
         stepStack.push(i);
     }
-    const Step &step = nextRandomStep();
-    stepStack.push(step);
-    delete &step;
-    return stepStack.top();
+    const Step &firstStep = nextRandomStep();
+    stepStack.push(firstStep);
+    const Step &secondStep = nextRandomStep();
+    stepStack.push(secondStep);
+    Step *steps = new Step[2]{firstStep, secondStep};
+    return steps;
 }
 
-bool RandomEngine::isThirdExchange(const vector<Step> &steps) {
-    return rand() % 2;
-}
-
-void RandomEngine::undoStep(const StoneType &stoneTypeUndo) {
-    if (!stepStack.empty()) {
-        if (stepStack.top().getStoneType() == this->stoneType) {
+void RandomEngine::undoStep(const StoneType &stoneTypeUndo, int undoNum) {
+    cout << "undo one step: " << stoneTypeUndo << endl;
+    if (stoneTypeUndo == this->stoneType) {
+        // 自己悔棋
+        // 撤回刚才自己的落子
+        if (undoNum == 1) {
             stepStack.pop();
-            if (!stepStack.empty()) {
+            if (stepStack.top().getStoneType() == ::getOpponentStoneType(stoneType)) {
+                stepStack.pop();
                 stepStack.pop();
             }
         } else {
             stepStack.pop();
+            stepStack.pop();
+            // 撤回对方的落子 -> 下一次响应平台落子请求时，平台会发送最后一次对方的两个落子
+            if (!stepStack.empty() ) {
+                stepStack.pop();
+                stepStack.pop();
+            }
+        }
+    }else {
+        // 对手悔棋
+        if (stepStack.size() > 0 && stepStack.top().getStoneType() != this->stoneType) {
+            if (undoNum == 1) {
+                stepStack.pop();
+            } else {
+                stepStack.pop();
+                stepStack.pop();
+            }
         }
     }
 }
 
-Step RandomEngine::isInvalidStep() {
+Step *RandomEngine::isInvalidSteps() {
     stepStack.pop();
-    const Step &step = nextRandomStep();
-    stepStack.push(step);
-    delete &step;
-    return stepStack.top();
-}
-
-vector<Step> RandomEngine::responseFifthSteps(int playNum, const vector<Step> &orderSteps) {
-    vector<Step> steps;
-    steps.reserve(playNum);
-    for (int i = 0; i < playNum; ++i) {
-        steps.push_back(nextRandomStep());
-    }
+    const Step &firstStep = nextRandomStep();
+    stepStack.push(firstStep);
+    const Step &secondStep = nextRandomStep();
+    stepStack.push(secondStep);
+    Step *steps = new Step[2]{firstStep, secondStep};
     return steps;
 }
 
-void RandomEngine::setFifthStep(const Step &fifthStep) {
-    stepStack.push(fifthStep);
-}
-
-Step RandomEngine::decideOpponentFifthStep(const vector<Step> &opponentFifthSteps) {
-    return opponentFifthSteps.at(rand() % opponentFifthSteps.size());
-}
 
 void RandomEngine::finishGame() {
     stack<Step>().swap(stepStack);
@@ -387,12 +377,12 @@ void cleanMemory() {
 }
 
 
-int *responseStepByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed) {
-    return randomEngine.responseStepByLastStepsFormatIntArray(opponentLastStep, gameTimeUsed);
+int *responseStepsByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed) {
+    return randomEngine.responseStepsByLastStepsFormatIntArray(opponentLastStep, gameTimeUsed);
 }
 
-int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed) {
-    return randomEngine.responseStepByOrderStepsFormatIntArray(stepsOrder, orderStepsNum, gameTimeUsed);
+int *responseStepsByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed) {
+    return randomEngine.responseStepsByOrderStepsFormatIntArray(stepsOrder, orderStepsNum, gameTimeUsed);
 }
 
 
@@ -400,8 +390,8 @@ void undoStep(int stoneTypeUndoValue, int undoNum, long gameTimeUsed) {
     randomEngine.Engine::undoStep(stoneTypeUndoValue, undoNum, gameTimeUsed);
 }
 
-int *isInvalidStepFormatIntArray(long gameTimeUsed) {
-    return randomEngine.isInvalidStepFormatIntArray(gameTimeUsed);
+int *isInvalidStepsFormatIntArray(long gameTimeUsed) {
+    return randomEngine.isInvalidStepsFormatIntArray(gameTimeUsed);
 }
 
 

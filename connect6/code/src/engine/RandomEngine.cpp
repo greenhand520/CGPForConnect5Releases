@@ -27,7 +27,7 @@ const Step &RandomEngine::nextRandomStep() {
     return *step;
 }
 
-Step *RandomEngine::responseStepByLastStep(const Step &opponentLastStep) {
+Step *RandomEngine::responseStepsByLastSteps(const Step &opponentLastStep) {
     stepStack.push(opponentLastStep);
     const Step &firstStep = nextRandomStep();
     stepStack.push(firstStep);
@@ -37,7 +37,7 @@ Step *RandomEngine::responseStepByLastStep(const Step &opponentLastStep) {
     return steps;
 }
 
-Step *RandomEngine::responseStepByOrderSteps(const vector<Step> &stepsOrder) {
+Step *RandomEngine::responseStepsByOrderSteps(const vector<Step> &stepsOrder) {
     for (const auto & i : stepsOrder) {
         stepStack.push(i);
     }
@@ -82,7 +82,7 @@ void RandomEngine::undoStep(const StoneType &stoneTypeUndo, int undoNum) {
     }
 }
 
-Step *RandomEngine::isInvalidStep() {
+Step *RandomEngine::isInvalidSteps() {
     stepStack.pop();
     const Step &firstStep = nextRandomStep();
     stepStack.push(firstStep);

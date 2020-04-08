@@ -27,13 +27,13 @@ protected:
 
     Step startGame() override;
 
-    Step *responseStepByLastStep(const Step &opponentLastStep) override;
+    Step *responseStepsByLastSteps(const Step &opponentLastStep) override;
 
-    Step *responseStepByOrderSteps(const vector<Step> &stepsOrder) override;
+    Step *responseStepsByOrderSteps(const vector<Step> &stepsOrder) override;
 
     void undoStep(const StoneType &stoneTypeUndo, int undoNum) override;
 
-    Step *isInvalidStep() override;
+    Step *isInvalidSteps() override;
 
 };
 

@@ -51,13 +51,13 @@ protected:
 
     virtual Step startGame() = 0;
 
-    virtual Step *responseStepByLastStep(const Step &opponentLastStep) = 0;
+    virtual Step *responseStepsByLastSteps(const Step &opponentLastStep) = 0;
 
-    virtual Step *responseStepByOrderSteps(const vector<Step> &stepsOrder) = 0;
+    virtual Step *responseStepsByOrderSteps(const vector<Step> &stepsOrder) = 0;
 
     virtual void undoStep(const StoneType &stoneTypeUndo, int undoNum) = 0;
 
-    virtual Step *isInvalidStep() = 0;
+    virtual Step *isInvalidSteps() = 0;
 
 public:
 
@@ -90,13 +90,13 @@ public:
 
     int *startNewGame();
 
-    int *responseStepByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed);
+    int *responseStepsByLastStepsFormatIntArray(const int *opponentLastStep, long gameTimeUsed);
 
-    int *responseStepByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed);
+    int *responseStepsByOrderStepsFormatIntArray(const int *stepsOrder, int orderStepsNum, long gameTimeUsed);
 
     void undoStep(int stoneTypeUndoValue, int undoNum, long gameTimeUsed);
 
-    int *isInvalidStepFormatIntArray(long gameTimeUsed);
+    int *isInvalidStepsFormatIntArray(long gameTimeUsed);
 
     virtual void finishGame() = 0;
 };
